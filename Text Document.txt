@@ -1,0 +1,32 @@
+#include<Servo.h>
+
+#define ESC_PIN 2
+
+
+
+
+Servo esc;
+
+
+void setup() 
+
+{
+  esc.attach(ESC_PIN);
+
+
+ 
+}
+
+void loop() 
+{
+  int joystickValue = analogRead(A0);
+  joystickValue = constrain(joystickValue, 0, 1023);  //Read upper half of joystick value from center.
+
+  int mmotorSpeed = map(joystickValue, 0, 1023, 0, 180);
+
+
+  esc.write(mmotorSpeed);
+
+  
+  
+}
