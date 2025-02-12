@@ -1,32 +1,31 @@
-#include<Servo.h>
+#define pinX A1       // ось X джойстика
+#define pinY A2       // ось X джойстика
 
-#define ESC_PIN 2
-
-
-
-
-Servo esc;
-
-
-void setup() 
-
-{
-  esc.attach(ESC_PIN);
+#include <Servo.h> // подключаем библиотеку для серво
+Servo servo1;           // объявляем объект servo1
+const int SENSOR_PIN = A0; // Пин для подключения потенциометра
+Servo myServo; // Создание объекта для управления сервоприводом
+Servo myServo2; 
+void setup() {
+   pinMode(pinX, INPUT); // указываем пин для джойстика
+   pinMode(pinY, INPUT); // указываем пин для джойстика
 
 
- 
+   servo1.attach(11);
+   myServo.attach(2);
+   myServo2.write(9);
 }
+ 
+void loop() {
+   int X = analogRead(pinX);      // считываем значение оси X
+   int Y = analogRead(A0);      // считываем значение оси X
+   int Z = analogRead(pinY);      // считываем значение оси X
 
-void loop() 
-{
-  int joystickValue = analogRead(A0);
-  joystickValue = constrain(joystickValue, 0, 1023);  //Read upper half of joystick value from center.
-
-  int mmotorSpeed = map(joystickValue, 0, 1023, 0, 180);
-
-
-  esc.write(mmotorSpeed);
-
-  
-  
+   X = map(X, 0, 1023, 0, 180); // переводим значение X в новый диапазон
+   Y = map(Y, 0, 1023, 0, 180);
+   Z = map(Z, 0, 1023, 0, 180);
+   
+   servo1.write(X);    
+   myServo.write(Y);// поворачиваем серво от джойстика
+   myServo2.write(Z);
 }
